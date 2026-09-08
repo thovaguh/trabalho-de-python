@@ -1,1 +1,1 @@
-# Trabalho Python
+# Trabalho de Python
