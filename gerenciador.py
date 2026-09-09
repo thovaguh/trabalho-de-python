@@ -17,3 +17,23 @@ def ler_idioma_offset(offset, arq_nome="idiomas.txt"):
             return None  # Retorna None se não houver linha
         codigo, descricao = linha.strip().split(",")#o strip() remove espaços em branco e o split() separa a linha em duas partes, usando a vírgula como delimitador
         return Idioma(codigo, descricao)  # Retorna um objeto Idioma
+    
+    def carregar_indices_idiomas(arvore, arq_nome="idiomas.txt"):
+        if not os.path.exists(arq_nome):#evita o erro de que o arq nao existe na primeira vez que for rodar
+            return
+        
+        with open(arq_nome, "r", encoding="utf-8") as arq:
+            while True:
+                offset = arq.tell()
+                
+                linha = arq.readline()
+                
+                if not linha:#condição de parada do while
+                    break
+                
+                partes = linha.strip().split(",")
+                
+                if len(partes) >= 2:
+                    codigo = int(partes[0])
+                    
+                    arvore.inserir(codigo, offset) #reconstroi o no na arvore que esta na RAM
