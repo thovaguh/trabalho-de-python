@@ -5,7 +5,7 @@ class No: #esse é o bloco de memoria que vai armazenar a chave e o offset do ar
         self.esquerda = None
         self.direita = None
 
-
+# o self é como: guarde.essa variavel = nessa variavel
 class ArvoreBinaria: # essa parte é a arvore binaria que vai armazenar os blocos de memoria
     def __init__(self):
         self.raiz = None

@@ -1,31 +1,47 @@
 class Idioma:
-    def __init__(self, idioma_cod, descricao):
-        self.codigo = int(idioma_cod)
+    def __init__(self, codigo, descricao):
+        self.codigo = int(codigo)
         self.descricao = descricao
 
 
 class Licao:
-    def __init__(self, licao_cod, idioma_cod, niveis_total):
-        self.licao_cod = int(licao_cod)
-        self.idioma_cod = int(idioma_cod)
+    def __init__(self, codigo, codigo_idioma, niveis_total):
+        self.codigo = int(codigo)
+        self.codigo_idioma = int(codigo_idioma)
         self.niveis_total = int(niveis_total)
 
 
 class Exercicio:
-    def __init__(self, exercicio_cod, licao_cod, nivel_dificuldade, descricao, opcoes_resposta, resposta_correta, pontuacao):
-        self.exercicio_cod = int(exercicio_cod)
-        self.licao_cod = int(licao_cod)
+    def __init__(self, codigo, codigo_licao, nivel_dificuldade, descricao, opcoes_resposta, resposta_correta, pontuacao):
+        self.codigo = int(codigo)
+        self.codigo_licao = int(codigo_licao)
         self.nivel_dificuldade = int(nivel_dificuldade)
         self.descricao = descricao
-        self.opcoes_resposta = opcoes_resposta  # Ex: lista ["a", "b", "c", "d"]
+        
+
+        # PROTEÇÃO CONTRA CONFLITO DE DELIMITADORES
+        # O arquivo .txt usa a vírgula (,) para separar as colunas do "banco de dados".
+        # Se salvarmos uma lista normal, suas vírgulas internas quebrarão o split(",") na leitura.
+    
+            # O isinstance() verifica se 'opcoes_resposta' é uma lista (um vetor).
+        if isinstance(opcoes_resposta, list):
+            # O .join() pega o vetor ["A", "B", "C", "D"] e "costura" tudo em um texto só.
+            # Usamos o "|" (pipe) no meio para não dar conflito com a vírgula do gerenciador.
+            # Resultado salvo no disco: "A|B|C|D"
+            self.opcoes_resposta = "|".join(opcoes_resposta)
+        else:
+            # Se não for uma lista (ex: já é o texto lido diretamente do arquivo .txt),
+            # ignora a conversão e guarda a string do jeito que está.
+            self.opcoes_resposta = opcoes_resposta
+            
         self.resposta_correta = resposta_correta
         self.pontuacao = int(pontuacao)
 
 
 class Usuario:
-    def __init__(self, usuario_cod, nome, cod_idioma, nivel_atual=1, pontuacao_total=0): # aqui temos variaveis ja recebendo valores de entrada
-        self.usuario_cod = int(usuario_cod)
+    def __init__(self, codigo, nome, codigo_idioma, nivel_atual=1, pontuacao_total=0):
+        self.codigo = int(codigo)
         self.nome = nome
-        self.cod_idioma = int(cod_idioma)
+        self.codigo_idioma = int(codigo_idioma)
         self.nivel_atual = int(nivel_atual)
         self.pontuacao_total = int(pontuacao_total)
