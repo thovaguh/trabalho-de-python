@@ -1,0 +1,45 @@
+
+    ////INGLES
+101,1,1,Como se diz 'Olá' em Inglês?,Hello|Bye|Sun|Moon,Hello,10
+102,1,1,O que significa 'Apple'?,Carro|Maçã|Uva|Cadeira,Maçã,10
+103,1,1,Traduza 'Gato' para o Inglês,Dog|Cat|Bird|Fish,Cat,10
+104,1,1,Qual é a cor do céu em um dia ensolarado?,Red|Green|Blue|Yellow,Blue,10
+105,1,1,O que é um 'Book'?,Livro|Mesa|Caneta|Janela,Livro,10
+106,1,1,Como dizer 'Obrigado'?,Please|Sorry|Thank you|Excuse me,Thank you,10
+107,1,1,O que significa a cor 'Red'?,Verde|Azul|Vermelho|Preto,Vermelho,10
+108,1,1,Traduza 'Cachorro' para o Inglês,Dog|Cat|Mouse|Lion,Dog,10
+109,1,1,Qual o número 'One'?,Dois|Três|Um|Quatro,Um,10
+110,1,1,Como se despedir dizendo 'Tchau'?,Hello|Goodbye|Good morning|Good night,Goodbye,10
+201,1,2,Traduza: 'I like to play sports',Eu gosto de ler|Eu gosto de praticar esportes|Eu odeio esportes|Eu jogo xadrez,Eu gosto de praticar esportes,20
+202,1,2,O que significa 'Good morning'?,Boa tarde|Boa noite|Bom dia|Olá,Bom dia,20
+203,1,2,Complete a frase: 'How are ___?',you|he|she|it,you,20
+204,1,2,Qual verbo significa 'Comer'?,To drink|To eat|To sleep|To run,To eat,20
+205,1,2,Traduza 'Água' para o Inglês,Milk|Juice|Water|Beer,Water,20
+206,1,2,O que é o 'Breakfast'?,Café da manhã|Almoço|Jantar|Lanche,Café da manhã,20
+207,1,2,Qual é o pronome usado para 'Ele' (Homem)?,I|You|He|She,He,20
+208,1,2,Traduza a frase 'My name is...',Meu nome é...|Eu tenho...|Eu gosto de...|Eu moro em...,Meu nome é...,20
+209,1,2,Qual palavra significa 'Amigo' em Inglês?,Enemy|Friend|Brother|Sister,Friend,20
+210,1,2,O que significa o verbo 'To sleep'?,Correr|Comer|Dormir|Falar,Dormir,20
+
+
+    ///ESPANHOL
+301,2,1,Como se diz 'Olá' em Espanhol?,Hola|Adiós|Sol|Luna,Hola,10
+302,2,1,O que significa 'Perro'?,Gato|Cachorro|Pássaro|Peixe,Cachorro,10
+303,2,1,Traduza 'Água' para o Espanhol,Agua|Leche|Jugo|Vino,Agua,10
+304,2,1,Qual é a cor 'Rojo'?,Verde|Azul|Vermelho|Preto,Vermelho,10
+305,2,1,O que é um 'Libro'?,Mesa|Livro|Caneta|Janela,Livro,10
+306,2,1,Como dizer 'Obrigado' em Espanhol?,Por favor|Perdón|Gracias|De nada,Gracias,10
+307,2,1,O que significa 'Gato' em Espanhol?,Cachorro|Gato|Rato|Leão,Gato,10
+308,2,1,Qual o número 'Uno'?,Dois|Três|Um|Quatro,Um,10
+309,2,1,Como se diz 'Bom dia'?,Buenas tardes|Buenas noches|Buenos días|Hola,Buenos días,10
+310,2,1,O que significa 'Manzana'?,Banana|Maçã|Uva|Pera,Maçã,10
+401,2,2,Traduza: 'Me gusta jugar fútbol',Eu gosto de ler|Eu gosto de jogar futebol|Eu odeio futebol|Eu jogo xadrez,Eu gosto de jogar futebol,20
+402,2,2,O que significa 'Buenas noches'?,Boa tarde|Boa noite|Bom dia|Olá,Boa noite,20
+403,2,2,Como se diz 'Eu' em Espanhol?,Tú|Él|Yo|Nosotros,Yo,20
+404,2,2,Qual verbo significa 'Comer'?,Beber|Comer|Dormir|Hablar,Comer,20
+405,2,2,Traduza 'Menino' para o Espanhol,Niño|Niña|Hombre|Mujer,Niño,20
+406,2,2,O que é o 'Desayuno'?,Café da manhã|Almoço|Jantar|Lanche,Café da manhã,20
+407,2,2,Qual é o pronome usado para 'Ela'?,Yo|Tú|Él|Ella,Ella,20
+408,2,2,Traduza a frase 'Mi nombre es...',Meu nome é...|Eu tenho...|Eu gosto de...|Eu moro em...,Meu nome é...,20
+409,2,2,Qual palavra significa 'Amigo' em Espanhol?,Enemigo|Amigo|Hermano|Primo,Amigo,20
+410,2,2,O que significa o verbo 'Hablar'?,Correr|Comer|Dormir|Falar,Falar,20
