@@ -37,11 +37,12 @@ class Exercicio:
         self.resposta_correta = resposta_correta
         self.pontuacao = int(pontuacao)
 
-
 class Usuario:
-    def __init__(self, codigo, nome, codigo_idioma, nivel_atual=1, pontuacao_total=0):
-        self.codigo = int(codigo)
+    # Adicionamos o exercicios_concluidos="" no final
+    def __init__(self, codigo, nome, codigo_idioma, nivel_atual=1, pontuacao_total=0, exercicios_concluidos=""):
+        self.codigo = codigo
         self.nome = nome
-        self.codigo_idioma = int(codigo_idioma)
-        self.nivel_atual = int(nivel_atual)
-        self.pontuacao_total = int(pontuacao_total)
+        self.codigo_idioma = codigo_idioma
+        self.nivel_atual = nivel_atual
+        self.pontuacao_total = pontuacao_total
+        self.exercicios_concluidos = exercicios_concluidos

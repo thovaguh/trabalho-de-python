@@ -146,26 +146,31 @@ def carregar_indices_exercicios(arvore, arq_nome="exercicios.txt"):
 #   USUÁRIOS.TXT
 
 def salvar_usuario(usuario, arq_nome="usuarios.txt"):
-    with open(arq_nome, "a+", encoding="utf-8") as arq:
-        arq.seek(0, os.SEEK_END)
+   def salvar_usuario(usuario):
+    with open("usuarios.txt", "a+", encoding="utf-8") as arq:
+        arq.seek(0, 2)
         offset = arq.tell()
-        
-        # Salva os 3 atributos: ID do usuário, Nome e Email
-        linha = f"{usuario.codigo},{usuario.nome},{usuario.codigo_idioma},{usuario.nivel_atual},{usuario.pontuacao_total}\n"
+        # Adicionamos a 6ª coluna no final para salvar os concluidos
+        linha = f"{usuario.codigo},{usuario.nome},{usuario.codigo_idioma},{usuario.nivel_atual},{usuario.pontuacao_total},{usuario.exercicios_concluidos}\n"
         arq.write(linha)
-        
-        return offset
+    return offset
 
-
-def ler_usuario_offset(offset, arq_nome="usuarios.txt"):
-    with open(arq_nome, "r", encoding="utf-8") as arq:
+def ler_usuario_offset(offset):
+    with open("usuarios.txt", "r", encoding="utf-8") as arq:
         arq.seek(offset)
-        linha = arq.readline()
-        if not linha:
-            return None
+        linha = arq.readline().strip()
+        partes = linha.split(",")
         
-        codigo, nome, codigo_idioma, nivel_atual, pontuacao_total = linha.strip().split(",")
-        return Usuario(codigo, nome, codigo_idioma, nivel_atual, pontuacao_total)
+        # Lê todas as partes com segurança
+        cod = int(partes[0])
+        nome = partes[1]
+        cod_idioma = int(partes[2])
+        nivel = int(partes[3])
+        pts = int(partes[4])
+        # Pega a lista de concluídos (se existir)
+        concluidos = partes[5] if len(partes) > 5 else ""
+        
+        return Usuario(cod, nome, cod_idioma, nivel, pts, concluidos)
 
 
 def carregar_indices_usuarios(arvore, arq_nome="usuarios.txt"):
