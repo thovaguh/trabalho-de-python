@@ -1,71 +1,43 @@
 import tkinter as tk
 from tkinter import messagebox
 import os
-from modelos import Idioma, Licao, Exercicio, Usuario
-from arvore import ArvoreBinaria
+from modelos import Usuario
 import gerenciador 
 
-# =================================================================================
-# 1. FUNÇÃO DE INICIALIZAÇÃO (SEMENTE DO BANCO DE DADOS)
-# =================================================================================
-def inicializar_banco_padrao(arvore_idiomas, arvore_exercicios, arvore_licoes):
-    if arvore_idiomas.buscar(1) is None:
-        arvore_idiomas.inserir(1, gerenciador.salvar_idioma(Idioma(1, "Inglês")))
-    if arvore_idiomas.buscar(2) is None:
-        arvore_idiomas.inserir(2, gerenciador.salvar_idioma(Idioma(2, "Espanhol")))
-    if arvore_licoes.buscar(1) is None:
-        arvore_licoes.inserir(1, gerenciador.salvar_licao(Licao(1, 1, 5))) 
-    if arvore_licoes.buscar(2) is None:
-        arvore_licoes.inserir(2, gerenciador.salvar_licao(Licao(2, 2, 5)))
-
-# =================================================================================
-# 2. A CLASSE DA INTERFACE GRÁFICA (Telas e Botões)
-# =================================================================================
 class MaxLanguageApp:
-    def __init__(self, root):
+    def __init__(self, root, arvore_idiomas, arvore_licoes, arvore_exercicios, arvore_usuarios):
         self.root = root
         self.root.title("MAXLanguage Platform")
         self.root.geometry("600x550")
-        self.root.configure(bg="#2c3e50") # Cor de fundo azul escuro
+        self.root.configure(bg="#2c3e50")
         
-        # --- CARREGA O BANCO DE DADOS ---
-        self.arvore_idiomas = ArvoreBinaria()
-        self.arvore_licoes = ArvoreBinaria()
-        self.arvore_exercicios = ArvoreBinaria()
-        self.arvore_usuarios = ArvoreBinaria()
-        
-        gerenciador.carregar_indices_idiomas(self.arvore_idiomas)
-        gerenciador.carregar_indices_licoes(self.arvore_licoes)
-        gerenciador.carregar_indices_exercicios(self.arvore_exercicios)
-        gerenciador.carregar_indices_usuarios(self.arvore_usuarios)
-        
-        inicializar_banco_padrao(self.arvore_idiomas, self.arvore_exercicios, self.arvore_licoes)
+        self.arvore_idiomas = arvore_idiomas
+        self.arvore_licoes = arvore_licoes
+        self.arvore_exercicios = arvore_exercicios
+        self.arvore_usuarios = arvore_usuarios
         
         self.usuario_logado = None
         
-        # Container principal onde as telas vão trocar
         self.container = tk.Frame(self.root, bg="#2c3e50")
         self.container.pack(fill="both", expand=True)
         
         self.mostrar_tela_inicial()
 
     def limpar_tela(self):
-        # Destrói todos os elementos da tela atual para desenhar a próxima
         for widget in self.container.winfo_children():
             widget.destroy()
 
     # --- TELA 1: MENU PRINCIPAL ---
     def mostrar_tela_inicial(self):
         self.limpar_tela()
-        
         tk.Label(self.container, text="MAXLANGUAGE", font=("Arial", 26, "bold"), fg="#f1c40f", bg="#2c3e50").pack(pady=40)
         
         tk.Button(self.container, text="1. Entrar (Sessão de Estudos)", font=("Arial", 14), width=30, bg="#3498db", fg="white", command=self.mostrar_tela_login).pack(pady=10)
         tk.Button(self.container, text="2. Matricular Novo Aluno", font=("Arial", 14), width=30, bg="#2ecc71", fg="white", command=self.mostrar_tela_matricula).pack(pady=10)
         tk.Button(self.container, text="3. Remover Aluno", font=("Arial", 14), width=30, bg="#e67e22", fg="white", command=self.mostrar_tela_remover).pack(pady=10)
-        tk.Button(self.container, text="0. Sair do Jogo", font=("Arial", 14), width=30, bg="#e74c3c", fg="white", command=self.root.quit).pack(pady=20)
+        tk.Button(self.container, text="0. Sair", font=("Arial", 14), width=30, bg="#e74c3c", fg="white", command=self.root.quit).pack(pady=20)
 
-    # --- TELA 2: MATRÍCULA (CREATE) ---
+    # --- TELA 2: MATRÍCULA ---
     def mostrar_tela_matricula(self):
         self.limpar_tela()
         tk.Label(self.container, text="Matrícula de Aluno", font=("Arial", 20, "bold"), fg="white", bg="#2c3e50").pack(pady=20)
@@ -126,7 +98,7 @@ class MaxLanguageApp:
                     
                 usu = gerenciador.ler_usuario_offset(offset)
                 if int(usu.nivel_atual) == -1:
-                    messagebox.showerror("Acesso Negado", "Esta conta foi excluída do sistema.")
+                    messagebox.showerror("Acesso Negado", "Esta conta foi excluída.")
                     return
                     
                 self.usuario_logado = usu
@@ -137,7 +109,7 @@ class MaxLanguageApp:
         tk.Button(self.container, text="Entrar", font=("Arial", 12), bg="#3498db", fg="white", command=tentar_logar, width=15).pack(pady=10)
         tk.Button(self.container, text="Voltar", font=("Arial", 12), command=self.mostrar_tela_inicial, width=15).pack()
 
-    # --- TELA 4: DASHBOARD (MENU DO ALUNO / READ & UPDATE) ---
+    # --- TELA 4: DASHBOARD (MENU DO ALUNO) ---
     def mostrar_dashboard_aluno(self):
         self.limpar_tela()
         usu = self.usuario_logado
@@ -157,7 +129,8 @@ class MaxLanguageApp:
                     partes = linha.strip().split(",")
                     if len(partes) >= 7:
                         cod_exer, cod_licao, nivel_req, descricao = int(partes[0]), int(partes[1]), int(partes[2]), partes[3]
-                        # Mostra a questão apenas se for do nível do aluno E do idioma que ele escolheu
+                        
+                        # FILTRO APLICADO: Só mostra se for do nível dele E do idioma que ele escolheu
                         if nivel_req <= int(usu.nivel_atual) and cod_licao == int(usu.codigo_idioma):
                             btn = tk.Button(frame_lista, text=f"Nível {nivel_req} - {descricao}", font=("Arial", 11), anchor="w", 
                                             command=lambda c=cod_exer: self.iniciar_exercicio(c))
@@ -197,7 +170,7 @@ class MaxLanguageApp:
             
         tk.Button(self.container, text="Cancelar / Voltar", font=("Arial", 10), command=self.mostrar_dashboard_aluno).pack(pady=30)
 
-    # --- TELA 6: REMOVER ALUNO (DELETE) ---
+    # --- TELA 6: REMOVER ALUNO (O DELETE DO CRUD) ---
     def mostrar_tela_remover(self):
         self.limpar_tela()
         tk.Label(self.container, text="Cancelar Matrícula", font=("Arial", 20, "bold"), fg="white", bg="#2c3e50").pack(pady=40)
@@ -221,7 +194,6 @@ class MaxLanguageApp:
                     messagebox.showerror("Erro", "Este aluno já foi removido do sistema!")
                     return
                 
-                # Exibe um alerta de confirmação antes de excluir
                 confirmacao = messagebox.askyesno("Confirmação", f"Tem certeza que deseja excluir a conta de '{usu.nome}' permanentemente?")
                 
                 if confirmacao:
@@ -236,11 +208,3 @@ class MaxLanguageApp:
 
         tk.Button(self.container, text="Remover Aluno", font=("Arial", 12), bg="#e74c3c", fg="white", command=deletar_aluno, width=20).pack(pady=10)
         tk.Button(self.container, text="Voltar", font=("Arial", 12), command=self.mostrar_tela_inicial, width=20).pack()
-
-# =================================================================================
-# 3. BOOT DO SISTEMA (Onde a mágica começa)
-# =================================================================================
-if __name__ == "__main__":
-    janela_principal = tk.Tk()
-    app = MaxLanguageApp(janela_principal)
-    janela_principal.mainloop()
