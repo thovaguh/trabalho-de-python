@@ -86,8 +86,8 @@ def atualizar_ou_apagar_usuario_no_txt(codigo_usuario, apagar=False):
     with open("usuarios.txt", "w", encoding="utf-8") as f:
         for linha in linhas:
             dados = linha.strip().split(",") # Separa os dados pela vírgula
-            #o split serve para poder limpar a sujeira do final como os \n
-            #o strip serve para  poder usar virgulas e juntar as tabelas
+           # o strip() serve para limpar a sujidade do final, como os \n
+            # o split(",") serve como tesoura para cortar a frase nas vírgulas e separar os dados
                         
             # Se achou a linha do usuário que queremos modificar...
             if dados and dados[0] == str(codigo_usuario):
@@ -121,7 +121,7 @@ def mostrar_tela_inicial():
 def mostrar_tela_matricula():
     limpar_tela()
     tk.Label(container, text="Cadastro de Aluno").pack(pady=20)
-    
+    #o entry serve para criar uma caixa de texto para o usuario digitar, e o pack serve para colocar na tela
     tk.Label(container, text="ID (número):").pack()
     entry_id = tk.Entry(container)
     entry_id.pack(pady=5)
@@ -153,6 +153,7 @@ def mostrar_tela_matricula():
                 novo_usu = Usuario(codigo, nome, cod_idioma, 1, 0)
                 
             salvar_novo_usuario_no_txt(novo_usu)
+            #o messagebox serve para criar uma caixa de mensagem de popup na tela, e o showinfo serve para mostrar uma mensagem de sucesso
             messagebox.showinfo("Sucesso", "Conta criada com sucesso!")
             mostrar_tela_inicial()
         except ValueError:
@@ -164,7 +165,7 @@ def mostrar_tela_matricula():
 def mostrar_tela_login():
     limpar_tela()
     tk.Label(container, text="Login").pack(pady=20)
-    
+    #o tk.label serve para criar um texto na tela, e o pack serve para colocar na tela
     tk.Label(container, text="Digite seu ID:").pack()
     entry_id = tk.Entry(container)
     entry_id.pack(pady=5)
@@ -222,6 +223,7 @@ def mostrar_tela_exercicios(nivel_selecionado):
         with open("exercicios.txt", "r", encoding="utf-8") as arq:
             for linha in arq:
                 partes = linha.strip().split(",")
+                #o len serve para contar quantos elementos tem na lista, e o if len(partes) >= 7 serve para verificar se a linha tem todos os dados necessários
                 if len(partes) >= 7:
                     cod_exer = int(partes[0])
                     cod_licao = int(partes[1])
@@ -303,8 +305,8 @@ def mostrar_tela_ranking():
             if len(partes) >= 5:
                 lista.append((partes[1], int(partes[4]))) 
         
-        # Ordena do maior XP para o menor XP
-        lista.sort(key=lambda x: x[1], reverse=True)
+        # sort=Ordena do maior XP para o menor XP   o x[1] é o x da linha (aluno, xp). entao faz o sort ordenar por xp
+        lista.sort(key=lambda x: x[1], reverse=True)#usa o reverse pq o sort ordena do menor para o maior, e o reverse inverte a ordem
         
         for i, (nome, pontos) in enumerate(lista[:5]): 
             tk.Label(container, text=f"{i+1}º lugar: {nome} - {pontos} XP").pack(pady=2)
@@ -325,7 +327,8 @@ def mostrar_tela_remover():
             if arvore_usuarios.buscar(codigo) is None:
                 messagebox.showerror("Erro", "ID não encontrado!")
                 return
-            
+
+            #askysno cria uma pegunta de sim ou nao, e se o usuario clicar em sim, ele vai apagar a conta
             if messagebox.askyesno("Confirmação", "Apagar aluno definitivamente?"):
                 atualizar_ou_apagar_usuario_no_txt(codigo, apagar=True) 
                 messagebox.showinfo("Sucesso", "Conta apagada.")
