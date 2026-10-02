@@ -241,29 +241,29 @@ def mostrar_tela_exercicios(nivel_selecionado):
 def iniciar_exercicio(id_exercicio):
     limpar_tela()
     global usuario_logado
-    
+    #aqui abaixo temos a função buscar que vai procurar o id do exercicio no txt e vai retornar o offset dele, e depois a função ler_exercicio_offset vai ler o exercicio no txt usando o offset
     offset_exer = arvore_exercicios.buscar(id_exercicio)
     exer = gerenciador.ler_exercicio_offset(offset_exer) 
     
     tk.Label(container, text=exer.descricao).pack(pady=20)
     
-    def checar_resposta(resposta_escolhida):
+    def checar_resposta(resposta_escolhida):  #essa função vai checar se a resposta escolhida pelo usuario é igual a resposta correta do exercicio
         if resposta_escolhida.lower() == exer.resposta_correta.lower():
-            # Acertou
+            # Acertou   
             usuario_logado.pontuacao_total = int(usuario_logado.pontuacao_total) + int(exer.pontuacao)
-            
+            # o hasattr serve para verificar se o usuario_logado tem o atributo exercicios_concluidos, e se tiver, ele vai adicionar o codigo do exercicio na lista de exercicios concluidos
             if hasattr(usuario_logado, 'exercicios_concluidos'):
-                if usuario_logado.exercicios_concluidos == "":
-                    usuario_logado.exercicios_concluidos = str(exer.codigo)
+                if usuario_logado.exercicios_concluidos == "": #aqui ele verifica se a lista de exercicios concluidos está vazia, e se estiver, ele vai adicionar o codigo do exercicio sem o traço
+                    usuario_logado.exercicios_concluidos = str(exer.codigo)# essa linha serve para adicionar o codigo do exercicio na lista de exercicios concluidos, e o str serve para converter o codigo do exercicio em string
                 else:
-                    usuario_logado.exercicios_concluidos += f"-{exer.codigo}"
+                    usuario_logado.exercicios_concluidos += f"-{exer.codigo}" #essa linha serve para adicionar o codigo do exercicio na lista de exercicios concluidos, e o str serve para converter o codigo do exercicio em string, e o traço serve para separar os codigos dos exercicios concluidos
             
             novo_nivel = (int(usuario_logado.pontuacao_total) // 100) + 1
             mensagem = f"Acertou! Ganhou {exer.pontuacao} XP."
             
             if novo_nivel > int(usuario_logado.nivel_atual):
                 usuario_logado.nivel_atual = novo_nivel
-                mensagem += f"\nSubiu para o nível {novo_nivel}!"
+                mensagem += f"\nSubiu para o nível {novo_nivel}!"# aqui ele vai adicionar uma mensagem dizendo que o usuario subiu de nivel, e o \n serve para pular uma linha na mensagem
             
             messagebox.showinfo("Certo", mensagem)
         else:
@@ -272,12 +272,12 @@ def iniciar_exercicio(id_exercicio):
             pontos = int(usuario_logado.pontuacao_total)
             usuario_logado.pontuacao_total = max(0, pontos - penalidade) 
             
-            messagebox.showerror("Erro", f"Errou! Perdeu {penalidade} XP.\nResposta correta: {exer.resposta_correta}")
+            messagebox.showerror("Erro", f"Errou! Perdeu {penalidade} XP.\nResposta correta: {exer.resposta_correta}")#aqui mostraremos que o usuario errou, e mostraremos a resposta correta, e o \n serve para pular uma linha na mensagem
             
         atualizar_ou_apagar_usuario_no_txt(usuario_logado.codigo, apagar=False)
         mostrar_dashboard_aluno()
 
-    opcoes = exer.opcoes_resposta.split("|")
+    opcoes = exer.opcoes_resposta.split("|")#aqui ele vai pegar as opcoes de resposta do exercicio e vai separar elas pelo |, e vai criar uma lista com as opcoes de resposta
     for op in opcoes:
         tk.Button(container, text=op, command=lambda o=op: checar_resposta(o)).pack(pady=5)
         
@@ -297,9 +297,9 @@ def mostrar_tela_ranking():
     
     if os.path.exists("usuarios.txt"):
         with open("usuarios.txt", "r", encoding="utf-8") as f:
-            linhas = f.readlines()
+            linhas = f.readlines()# essa linha faz com que o programa leia todas as linhas do arquivo usuarios.txt e armazene em uma lista chamada linhas, onde cada elemento da lista é uma linha do arquivo, e o f.readlines() serve para ler todas as linhas do arquivo e armazenar em uma lista
         
-        lista = []
+        lista = [] #a lista vai guardar os nomes e os pontos dos alunos, e o append vai adicionar um elemento na lista, e o (partes[1], int(partes[4])) vai pegar o nome do aluno e os pontos do aluno, e o int serve para converter os pontos do aluno em inteiro
         for linha in linhas:
             partes = linha.strip().split(",")
             if len(partes) >= 5:
@@ -308,7 +308,7 @@ def mostrar_tela_ranking():
         # sort=Ordena do maior XP para o menor XP   o x[1] é o x da linha (aluno, xp). entao faz o sort ordenar por xp
         lista.sort(key=lambda x: x[1], reverse=True)#usa o reverse pq o sort ordena do menor para o maior, e o reverse inverte a ordem
         
-        for i, (nome, pontos) in enumerate(lista[:5]): 
+        for i, (nome, pontos) in enumerate(lista[:5]): #aqui ele vai percorrer a lista de alunos e pontos, e vai pegar os 5 primeiros elementos da lista, e o enumerate serve para pegar o indice do elemento na lista, e o i+1 serve para mostrar a posição do aluno no ranking
             tk.Label(container, text=f"{i+1}º lugar: {nome} - {pontos} XP").pack(pady=2)
     
     tk.Button(container, text="Voltar", command=mostrar_tela_inicial).pack(pady=20)
@@ -322,7 +322,7 @@ def mostrar_tela_remover():
     entry_id.pack(pady=5)
     
     def apagar():
-        try:
+        try:# o try serve para tentar executar o codigo, e o except serve para capturar o erro caso ocorra algum erro, e o ValueError serve para capturar o erro caso o usuario digite um valor invalido
             codigo = int(entry_id.get())
             if arvore_usuarios.buscar(codigo) is None:
                 messagebox.showerror("Erro", "ID não encontrado!")
